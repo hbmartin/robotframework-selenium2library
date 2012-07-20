@@ -458,7 +458,7 @@ class _BrowserManagementKeywords(KeywordGroup):
         '''parses the string based desired_capabilities which should be in the form
         key1:val1,key2:val2 and creates the associated remote web driver'''
         desired_cap = self._create_desired_capabilities(capabilities_type , desired_capabilities)
-        return webdriver.Remote(desired_capabilities=desired_cap , command_executor=str(remote_url) ,                                       browser_profile=profile)
+        return webdriver.Remote(str(remote_url), capabilities_type)
 
 
     def _create_desired_capabilities(self, capabilities_type, capabilities_string):

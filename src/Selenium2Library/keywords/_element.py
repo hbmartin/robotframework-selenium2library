@@ -218,6 +218,25 @@ class _ElementKeywords(KeywordGroup):
                           "in fact it was '%s'." % (locator, expected, actual)
             raise AssertionError(message)
 
+    def get_element_text(self, locator, strip_text=True):
+        """Gets text contained in element, found by locator.
+
+	By default it removes whitespace from begining and end
+	of text. That behavior can be changed by passing `strip_text`
+	argument.
+
+        Key attributes for arbitrary elements are `id` and `name`. See
+        `introduction` for details about locating elements.
+        """
+        element = self._element_find(locator, True, False)
+        if element is None:
+            raise ValueError("Element '%s' not found." % (locator))
+
+	if strip_text:
+        	return element.text.strip()
+	else:
+        	return element.text
+
     def get_element_attribute(self, attribute_locator):
         """Return value of element attribute.
 

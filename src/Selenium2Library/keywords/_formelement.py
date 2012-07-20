@@ -197,6 +197,24 @@ class _FormElementKeywords(KeywordGroup):
         self._info("Typing text '%s' into text field '%s'" % (text, locator))
         self._input_text_into_text_field(locator, text)
 
+    def append_text(self, locator, text):
+        """Types the given `text` into text field identified by `locator`.
+	It doesn't clear field before typing.
+
+        See `introduction` for details about locating elements.
+        """
+        self._info("Appending text '%s' into text field '%s'" % (text, locator))
+        self._append_text_into_text_field(locator, text)
+
+	
+    def clear(self, locator):
+        """Clears element identified by `locator`.
+
+        See `introduction` for details about locating elements.
+        """
+        self._info("Clearing element '%s'" % locator)
+        self._clear_text_field(locator)
+
     def page_should_contain_textfield(self, locator, message='', loglevel='INFO'):
         """Verifies text field identified by `locator` is found from current page.
 
@@ -323,6 +341,14 @@ class _FormElementKeywords(KeywordGroup):
         element = self._element_find(locator, True, True)
         element.clear()
         element.send_keys(text)
+
+    def _append_text_into_text_field(self, locator, text):
+        element = self._element_find(locator, True, True)
+        element.send_keys(text)
+
+    def _clear_text_field(self, locator):
+        element = self._element_find(locator, True, True)
+        element.clear()
 
     def _is_form_element(self, element):
         if element is None:
