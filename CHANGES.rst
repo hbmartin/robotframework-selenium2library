@@ -18,6 +18,9 @@ Release Notes
  `Open Browser    [initial page url]    remote_url=[the selenium-server url]    browser=htmlunit`
   [SoCalLongboard]
 
+- Added `Element Should Not Contain` keyword.
+  [cheezy]
+
 1.0.1
 -----
 - Support for Robot Framework 2.7
