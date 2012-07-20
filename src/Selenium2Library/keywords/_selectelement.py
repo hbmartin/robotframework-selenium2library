@@ -167,7 +167,7 @@ class _SelectElementKeywords(KeywordGroup):
         items_str = items and "option(s) '%s'" % ", ".join(items) or "all options"
         self._info("Selecting %s from list '%s'." % (items_str, locator))
         items = list(items)
-
+        
         select, options = self._get_select_list_options(locator)
         is_multi_select = self._is_multiselect_list(select)
         select_func = self._select_option_from_multi_select_list if is_multi_select else self._select_option_from_single_select_list
@@ -179,13 +179,53 @@ class _SelectElementKeywords(KeywordGroup):
 
         option_values = self._get_values_for_options(options)
         option_labels = self._get_labels_for_options(options)
+        print option_values
         for item in items:
             option_index = None
-            try: option_index = option_values.index(item)
+            try:	option_index = option_values.index(item)
             except:
-                try: option_index = option_labels.index(item)
-                except: continue
+                try:	option_index = option_labels.index(item)
+                except: raise
+            print option_index
             select_func(select, options, option_index)
+
+    def select_from_list_contains(self, locator, item, sel = "labels", index = 0):
+        """Selects `item` from list identified by `locator`
+        Optionally specify (With optional `sel` argument) whether to select by 'values'
+        or 'labels' (default). Also  specify which of the matched items should be selected.
+        By default, the first item (index 0) is selected. Specify index=all to select all
+        matching item in lists that allow multiple selection.
+
+        Select list keywords work on both lists and combo boxes. Key attributes for
+        select lists are `id` and `name`. See `introduction` for details about
+        locating elements.
+        """
+        
+        select, options = self._get_select_list_options(locator)
+        is_multi_select = self._is_multiselect_list(select)
+        select_func = self._select_option_from_multi_select_list if is_multi_select else self._select_option_from_single_select_list
+        option_values = self._get_values_for_options(options)
+        option_labels = self._get_labels_for_options(options)
+        select_index = []
+        if sel == "values":
+            select_index = [i for i, x in enumerate(option_values) if item in x]
+        else:
+            select_index = [i for i, x in enumerate(option_labels) if item in x]
+        
+        if not len(select_index) > 0:
+            raise "No items found to select"
+        print select_index
+        try:
+            index = int(index)
+            print select_index[index]
+            print type(select_index[index])
+            if index > len(select_index) or index < 0:
+                raise "Index not valid"
+            select_func(select, options, select_index[index])
+        except:
+            print "ese"
+            for i in select_index:
+                select_func(select, options, i)
 
     def unselect_from_list(self, locator, *items):
         """Unselects given values from select list identified by locator.
