@@ -21,6 +21,9 @@ Release Notes
 - Added `Element Should Not Contain` keyword.
   [cheezy]
 
+
+=======
+
 1.0.1
 -----
 - Support for Robot Framework 2.7
