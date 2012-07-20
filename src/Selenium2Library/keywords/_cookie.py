@@ -29,3 +29,8 @@ class _CookieKeywords(KeywordGroup):
         if cookie is not None:
             return cookie['value']
         raise ValueError("Cookie with name %s not found." % name)
+
+    def create_cookie(self, cname, cval, cpath = '/'):
+        """Creates a  cookie with `name`, `value` arguments
+        Use should be minimized since it weakens test case"""
+        self._current_browser().add_cookie({'name' : cname, 'value' : cval, 'path' : cpath})
